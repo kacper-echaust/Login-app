@@ -2,7 +2,12 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
-
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
