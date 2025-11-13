@@ -1,6 +1,4 @@
-export type RegisterType = {
+export type User = {
   username: string;
   password: string;
-  terms: boolean;
-  id: number;
 };
