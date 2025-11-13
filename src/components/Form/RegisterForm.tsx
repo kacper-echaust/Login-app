@@ -3,8 +3,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { Button } from "../ui/button";
 import { InputField } from "./InputField";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod/src/zod.js";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Checkbox } from "../ui/checkbox";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 
 const formSchema = z.object({
   username: z
@@ -25,12 +27,15 @@ const formSchema = z.object({
     })
     .regex(
       /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=[{\]};:'",<.>/?\\|`~]).+$/,
-      "Hasło musi zawierać co najmniej jedną wielką literę, cyfrę i znak specjalny"
+      "The password must contain at least one uppercase letter, number and special character."
     ),
-  terms: z.boolean(),
+  terms: z.boolean().refine((val) => val === true, {
+    message: "You must accept the terms.",
+  }),
 });
 
 const RegisterForm = () => {
+  const { registerUser, error } = useAuth();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,12 +45,13 @@ const RegisterForm = () => {
     },
   });
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+    registerUser(data);
   };
   return (
     <div className="w-84   flex items-center justify-center">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
           <InputField control={form.control} name="username" />
           <InputField control={form.control} name="password" />
           <FormField
@@ -59,21 +65,30 @@ const RegisterForm = () => {
                     onCheckedChange={(checked) => field.onChange(checked)}
                   />
                 </FormControl>
-                <FormLabel>Accept Terms</FormLabel>
+                <FormLabel>Terms & Conditions</FormLabel>
               </FormItem>
             )}
           />
-          <Button className="cursor-pointer mt-5 w-full" type="submit">
+
+          <Button
+            className="cursor-pointer mt-5 w-full"
+            type="submit"
+            disabled={form.formState.isSubmitting}
+          >
             Register
           </Button>
-          <Button
-            type="button"
-            size="sm"
-            variant="outline"
-            className="cursor-pointer mt-2 w-full"
-          >
-            Log in
-          </Button>
+          <Link to="/login">
+            <p className="text-sm">Have an account?</p>
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              className="cursor-pointer mt-2 w-full"
+              disabled={form.formState.isSubmitting}
+            >
+              Log in
+            </Button>
+          </Link>
         </form>
       </Form>
     </div>

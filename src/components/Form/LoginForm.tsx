@@ -3,7 +3,9 @@ import { Form } from "../ui/form";
 import { Button } from "../ui/button";
 import { InputField } from "./InputField";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod/src/zod.js";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 
 const formSchema = z.object({
   username: z.string().min(1, {
@@ -16,6 +18,7 @@ const formSchema = z.object({
 });
 
 const LoginForm = () => {
+  const { loginUser, error } = useAuth();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -24,26 +27,34 @@ const LoginForm = () => {
     },
   });
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+    loginUser(data);
   };
   return (
-    <div className="w-84   flex items-center justify-center">
+    <div className="max-w-sm flex items-center justify-center">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <InputField control={form.control} name="username" />
           <InputField control={form.control} name="password" />
-
-          <Button className="cursor-pointer mt-5 w-full" type="submit">
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          <Button
+            className="cursor-pointer mt-5 w-full"
+            type="submit"
+            disabled={form.formState.isSubmitting}
+          >
             Log in
           </Button>
-          <Button
-            type="button"
-            size="sm"
-            variant="outline"
-            className="cursor-pointer mt-2 w-full"
-          >
-            Register
-          </Button>
+          <Link to="/register">
+            <p className="text-sm">Don't have an account?</p>
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              className="cursor-pointer mt-2 w-full"
+              disabled={form.formState.isSubmitting}
+            >
+              Register
+            </Button>
+          </Link>
         </form>
       </Form>
     </div>
