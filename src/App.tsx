@@ -1,10 +1,14 @@
-import { LoginForm } from "./components/Form/LoginForm";
+import { FormContainer } from "./components/FormContainer";
+import { BrowserRouter } from "react-router-dom";
+import { AuthContextProvider } from "./context/AuthContext";
 
 const App = () => {
   return (
-    <>
-      <LoginForm />
-    </>
+    <AuthContextProvider>
+      <BrowserRouter>
+        <FormContainer />
+      </BrowserRouter>
+    </AuthContextProvider>
   );
 };
 
