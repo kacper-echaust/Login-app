@@ -1,4 +1,4 @@
-import type { Control } from "react-hook-form";
+import type { Control, FieldValues, Path } from "react-hook-form";
 import {
   FormField,
   FormItem,
@@ -7,14 +7,13 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import type { FormType } from "@/types";
 
-type InputType = {
-  control: Control<FormType, unknown, FormType>;
-  name: "username" | "password";
+type InputType<T extends FieldValues> = {
+  control: Control<T>;
+  name: Path<T>;
 };
 
-const InputField = ({ control, name }: InputType) => {
+const InputField = <T extends FieldValues>({ control, name }: InputType<T>) => {
   const label = [...name].map((letter, index) =>
     index === 0 ? letter.toUpperCase() : letter
   );
