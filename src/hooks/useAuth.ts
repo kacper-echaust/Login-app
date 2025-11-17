@@ -1,4 +1,4 @@
-import type { User } from "@/types";
+import type { Login, User, Register } from "@/types";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { db } from "../firebase";
@@ -20,16 +20,18 @@ const useAuth = () => {
 
     const users2 = querySnapshot.docs.map((doc) => ({
       ...(doc.data() as User),
+      id: doc.id,
     }));
     setUsers(users2);
   };
-  const loginUser = (data: User) => {
+  const loginUser = (data: Login) => {
     const existingUser = users?.find(
       (user) =>
         user.password === data.password &&
         user.username.toLowerCase() === data.username.toLowerCase()
     );
     if (existingUser) {
+      localStorage.setItem("IDToken", existingUser.id);
       setIsAuth(true);
       navigate("/logged");
       setError("");
@@ -40,7 +42,7 @@ const useAuth = () => {
       return;
     }
   };
-  const registerUser = async (data: User) => {
+  const registerUser = async (data: Register) => {
     const checkUsername = users?.find(
       (user) => user.username.toLowerCase() === data.username.toLowerCase()
     );
@@ -54,8 +56,11 @@ const useAuth = () => {
     await getUsers();
     navigate("/login");
   };
-
-  return { loginUser, registerUser, error };
+  const logOut = () => {
+    setIsAuth(false);
+    localStorage.removeItem("IDToken");
+  };
+  return { loginUser, registerUser, error, logOut };
 };
 
 export { useAuth };
