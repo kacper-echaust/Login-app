@@ -3,7 +3,7 @@ export type User = {
   password: string;
   id: string;
 };
-export type Login = Omit<User, "id">;
+export type Login = Omit<User, 'id'>;
 export type Register = {
   username: string;
   password: string;

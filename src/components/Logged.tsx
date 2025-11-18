@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import { Button } from "./ui/button";
-import { useAuth } from "@/hooks/useAuth";
+import { Link } from 'react-router-dom';
+import { Button } from './ui/button';
+import { useAuth } from '@/hooks/useAuth';
 
 const Logged = () => {
   const { logOut } = useAuth();

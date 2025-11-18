@@ -1,19 +1,19 @@
-import { useForm } from "react-hook-form";
-import { Form } from "../ui/form";
-import { Button } from "../ui/button";
-import { InputField } from "./InputField";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
+import { useForm } from 'react-hook-form';
+import { Form } from '../ui/form';
+import { Button } from '../ui/button';
+import { InputField } from './InputField';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Link } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 
 const formSchema = z.object({
   username: z.string().min(1, {
-    message: "Username must be at least 1 character",
+    message: 'Username must be at least 1 character',
   }),
 
   password: z.string().min(1, {
-    message: "Password must be at least 1 character",
+    message: 'Password must be at least 1 character',
   }),
 });
 
@@ -22,8 +22,8 @@ const LoginForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
-      password: "",
+      username: '',
+      password: '',
     },
   });
   const onSubmit = (data: z.infer<typeof formSchema>) => {

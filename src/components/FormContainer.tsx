@@ -1,9 +1,9 @@
-import { Routes, Route } from "react-router-dom";
-import { LoginForm } from "./Form/LoginForm";
-import { RegisterForm } from "./Form/RegisterForm";
-import { ProtectedRoute } from "./ProtectedRoute";
-import { Logged } from "./Logged";
-import { Home } from "./Home";
+import { Routes, Route } from 'react-router-dom';
+import { LoginForm } from './Form/LoginForm';
+import { RegisterForm } from './Form/RegisterForm';
+import { ProtectedRoute } from './ProtectedRoute';
+import { Logged } from './Logged';
+import { Home } from './Home';
 
 const RoutesContainer = () => {
   return (

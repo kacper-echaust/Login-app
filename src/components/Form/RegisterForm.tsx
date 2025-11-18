@@ -1,36 +1,36 @@
-import { useForm } from "react-hook-form";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
-import { Button } from "../ui/button";
-import { InputField } from "./InputField";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Checkbox } from "../ui/checkbox";
-import { Link } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
+import { useForm } from 'react-hook-form';
+import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form';
+import { Button } from '../ui/button';
+import { InputField } from './InputField';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Checkbox } from '../ui/checkbox';
+import { Link } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 
 const formSchema = z.object({
   username: z
     .string()
     .min(2, {
-      message: "Username must be at least 2 characters",
+      message: 'Username must be at least 2 characters',
     })
     .max(15, {
-      message: "Username must be max 15 characters.",
+      message: 'Username must be max 15 characters.',
     }),
   password: z
     .string()
     .min(5, {
-      message: "Password must be at least 5 characters.",
+      message: 'Password must be at least 5 characters.',
     })
     .max(15, {
-      message: "Password must be max 15 characters.",
+      message: 'Password must be max 15 characters.',
     })
     .regex(
       /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=[{\]};:'",<.>/?\\|`~]).+$/,
-      "The password must contain at least one uppercase letter, number and special character."
+      'The password must contain at least one uppercase letter, number and special character.',
     ),
   terms: z.boolean().refine((val) => val === true, {
-    message: "You must accept the terms.",
+    message: 'You must accept the terms.',
   }),
 });
 
@@ -39,8 +39,8 @@ const RegisterForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
-      password: "",
+      username: '',
+      password: '',
       terms: false,
     },
   });
